@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "outFile": "logicaJuego.js",
+    "removeComments": false,
+    "strict": false,
+    "noEmitOnError": false
+  },
+  "include": ["logicaJuego.ts"]
+}

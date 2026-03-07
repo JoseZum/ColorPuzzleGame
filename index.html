@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tube Sort 3D</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="overlay">
+    <div id="hud">
+        <h1>Tube Sort 3D</h1>
+        <div id="controls">
+            <button id="btn-view" onclick="toggleView()">2D</button>
+            <button id="btn-undo" onclick="undoMove()">Undo</button>
+            <button id="btn-reset" onclick="resetGame()">Reset</button>
+            <button id="btn-new" onclick="newGame()">New Game</button>
+        </div>
+        <div id="moves-counter">Moves: <span id="moves">0</span></div>
+    </div>
+    <div id="victory-screen">
+        <div id="victory-content">
+            <h2>YOU WIN!</h2>
+            <p id="victory-moves"></p>
+            <button onclick="newGame()">Play Again</button>
+        </div>
+    </div>
+    <div id="tube-labels"></div>
+    <div id="toast"></div>
+</div>
+<canvas id="game-canvas"></canvas>
+<div id="view-2d"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="logicaJuego.js"></script>
+<script src="juego3d.js"></script>
+</body>
+</html>
