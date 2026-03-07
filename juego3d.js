@@ -7,8 +7,8 @@ var COLOR_CSS=[
     '#00ffff','#ff6600','#9933ff','#33ff66','#ff3399'
 ]
 
-function getColorHex(i){return COLOR_PALETTE[i%COLOR_PALETTE.length]}
-function getCSS(i){return COLOR_CSS[i%COLOR_CSS.length]}
+function getColorHex(c){var i=parseInt(c);return COLOR_PALETTE[i%COLOR_PALETTE.length]}
+function getCSS(c){var i=parseInt(c);return COLOR_CSS[i%COLOR_CSS.length]}
 
 var scene,camera,renderer,controls
 var tubeGroup,liquidMeshes=[],tubeMeshes=[],glowMeshes=[]

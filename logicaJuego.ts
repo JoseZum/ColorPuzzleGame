@@ -200,7 +200,7 @@ function randomizarPrimerEstado(): Estado {
 
     //Generar colores
     for (let i = 0; i < coloresNecesarios; i++) {
-        const color = `C${i}`
+        const color = `${i}`
 
         for (let j = 0; j < CAPACIDAD; j++) {
             piezas.push(color)
