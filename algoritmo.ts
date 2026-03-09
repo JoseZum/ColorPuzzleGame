@@ -10,6 +10,8 @@ declare function updateLiquids(): void
 declare function render2D(): void
 declare var historial: any
 declare function puedeMover(origen: any, destino: any): boolean
+declare var movesCount: number
+declare function showVictory(): void
 
 // Cada nodo representa un estado del tablero alcanzado durante la búsqueda
 interface NodoAEstrella {
@@ -30,25 +32,53 @@ class MinHeap<T> {
         this.comparador = comparador
     }
 
-    push(item: T) {
+    push(item: T): void {
         this.items.push(item)
-        this.items.sort(this.comparador)
+        this.bubbleUp(this.items.length - 1)
     }
 
     pop(): T {
-        return this.items.shift()!
+        const min = this.items[0]
+        const ultimo = this.items.pop()!
+        if (this.items.length > 0) {
+            this.items[0] = ultimo
+            this.bubbleDown(0)
+        }
+        return min
     }
 
     isEmpty(): boolean {
         return this.items.length === 0
     }
+
+    // Sube el elemento en index mientras sea menor que su padre
+    private bubbleUp(index: number): void {
+        while (index > 0) {
+            const padre = Math.floor((index - 1) / 2)
+            if (this.comparador(this.items[index], this.items[padre]) >= 0) break
+            const tmp = this.items[index]; this.items[index] = this.items[padre]; this.items[padre] = tmp
+            index = padre
+        }
+    }
+
+    // Baja el elemento en index mientras sea mayor que alguno de sus hijos
+    private bubbleDown(index: number): void {
+        const n = this.items.length
+        while (true) {
+            let menor = index
+            const izq = 2 * index + 1
+            const der = 2 * index + 2
+            if (izq < n && this.comparador(this.items[izq], this.items[menor]) < 0) menor = izq
+            if (der < n && this.comparador(this.items[der], this.items[menor]) < 0) menor = der
+            if (menor === index) break
+            const tmp = this.items[index]; this.items[index] = this.items[menor]; this.items[menor] = tmp
+            index = menor
+        }
+    }
 }
 
 function estadoToString(estado: Estado): string {
-    // Ordenar los tubos antes de serializar para evitar duplicados
-    const tubosSerializados = estado.map((tubo: any) => tubo.toArray().join(","))
-    tubosSerializados.sort()
-    return tubosSerializados.join("|")
+    return estado.map((tubo: any) => tubo.toArray().join(",")).join("|")
 }
 
 // Si un tubo tiene k colores , aporta k - 1 a h, ya que cada tubo tiene que tener 1 color
@@ -66,13 +96,25 @@ function heuristica(estado: Estado): number {
     return h
 }
 
-// Devuelve todos los estados validos a los q se pueden llegar desde el actual
+// Retorna true si el tubo esta lleno y tiene un solo color (ya resuelto)
+function tuboResuelto(tubo: any): boolean {
+    const arr = tubo.toArray()
+    if (arr.length < 4) return false
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] !== arr[0]) return false
+    }
+    return true
+}
+
+// Devuelve todos los estados validos a los que se puede llegar desde el actual
 function generarSucesores(estado: Estado): Array<{estado: Estado, movimiento: [number, number]}> {
     const sucesores: Array<{estado: Estado, movimiento: [number, number]}> = []
     for (let desde = 0; desde < NUMERO_TUBOS; desde++){
         for (let hasta = 0; hasta < NUMERO_TUBOS; hasta++){
             if (desde === hasta) continue
-            // cLonar el estado si solo si el movimiento es valido
+            // Poda: mover un tubo ya resuelto a un vacio solo lo deshace
+            if (estado[hasta].isEmpty() && tuboResuelto(estado[desde])) continue
+            // Validar antes de clonar: clonarEstado es costoso
             if (!puedeMover(estado[desde], estado[hasta])) continue
             const nuevoEstado = clonarEstado(estado)
             moverEntreTubos(nuevoEstado, desde, hasta)
@@ -96,10 +138,12 @@ function AEstrella(estadoInicial: Estado): Array<[number, number]> | null {
     let pasos = 0
 
     pendientes.push(nodoInicial)
+    // Registrar g=0 del estado inicial para que mejorG sea consistente desde el arranque
+    mejorG.set(estadoToString(estadoInicial), 0)
     while (!pendientes.isEmpty()){
         const actual = pendientes.pop() //sacamos el nodo con menor f
         pasos++
-        console.log(`[A*] Paso ${pasos} | g=${actual.g} h=${actual.h} f=${actual.f} | cola=${pendientes.items.length} visitados=${visitados.size}`)
+        if (pasos % 500 === 0) console.log(`[A*] Paso ${pasos} | g=${actual.g} h=${actual.h} f=${actual.f} | cola=${pendientes.items.length} visitados=${visitados.size}`)
 
         if (detectarVictoria(actual.estado)) {
             const t1 = performance.now()
@@ -154,15 +198,26 @@ function reconstruirCamino(nodo: NodoAEstrella): Array<[number, number]> {
     const movimientos = AEstrella(clonarEstado(estado))
     if (!movimientos) { console.warn("[A*] El puzzle no tiene solución"); return }
     console.log(`[A*] Aplicando ${movimientos.length} movimientos...`)
-    let delay = 0
-    for (const [desde, hasta] of movimientos) {
+    movimientos.forEach(function(mov: [number, number], i: number) {
+        const desde = mov[0]
+        const hasta = mov[1]
+        const esUltimo = i === movimientos.length - 1
         setTimeout(function() {
-            hacerMovimiento(historial, desde, hasta)
+            const ok = hacerMovimiento(historial, desde, hasta)
+            if (ok) {
+                movesCount++
+                const el = document.getElementById('moves')
+                if (el) el.textContent = String(movesCount)
+            }
             updateLiquids()
             render2D()
-        }, delay)
-        delay += 400
-    }
+            // Despues del ultimo movimiento verificar victoria
+            if (esUltimo) {
+                const cur = estadoActual(historial)
+                if (cur && detectarVictoria(cur)) showVictory()
+            }
+        }, i * 400)
+    })
 }
 
 

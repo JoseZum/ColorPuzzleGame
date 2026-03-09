@@ -564,17 +564,20 @@ function toggleView(){
     var canvas=document.getElementById('game-canvas')
     var view2d=document.getElementById('view-2d')
     var btn=document.getElementById('btn-view')
+    var title=document.getElementById('hud-title')
     if(currentView==='3d'){
         currentView='2d'
         canvas.style.display='none'
         view2d.style.display='flex'
         btn.textContent='3D'
+        if(title) title.textContent='Tube Sort 2D'
         render2D()
     }else{
         currentView='3d'
         canvas.style.display='block'
         view2d.style.display='none'
         btn.textContent='2D'
+        if(title) title.textContent='Tube Sort 3D'
         updateLiquids()
     }
     selectedTube=-1
