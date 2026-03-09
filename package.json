@@ -4,8 +4,9 @@
   "description": "",
   "main": "algoritmo.js",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "tsc -p tsconfig.json & tsc -p tsconfig.algoritmo.json",
+    "build:algo": "tsc -p tsconfig.algoritmo.json",
+    "watch": "tsc -p tsconfig.json --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

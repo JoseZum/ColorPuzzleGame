@@ -14,6 +14,9 @@ body{overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',sans-serif;color:
 #btn-reset:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(245,87,108,0.4)}
 #btn-new{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff}
 #btn-new:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(79,172,254,0.4)}
+#btn-astar{background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;animation:glowPulse 2s ease-in-out infinite}
+#btn-astar:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(245,175,25,0.5)}
+#btn-astar:disabled{opacity:0.5;cursor:not-allowed;transform:none;animation:none}
 #moves-counter{font-size:1rem;font-weight:600;padding:8px 16px;background:rgba(255,255,255,0.08);border-radius:8px;backdrop-filter:blur(10px)}
 #victory-screen{display:none;position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:all;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);justify-content:center;align-items:center;animation:fadeIn 0.5s ease}
 #victory-screen.active{display:flex}
@@ -35,7 +38,7 @@ body{overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',sans-serif;color:
 @keyframes shakeX{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .shake{animation:shakeX 0.4s ease}
 #view-2d{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background:#0a0a1a;overflow-y:auto;padding:80px 24px 40px}
-.grid-2d{display:grid;grid-template-columns:repeat(4,auto);gap:20px 24px;justify-content:center;align-items:end;margin:auto;padding-bottom:20px}
+.grid-2d{display:grid;grid-template-columns:repeat(6,auto);gap:20px 24px;justify-content:center;align-items:end;margin:auto;padding-bottom:20px}
 .tube2d{display:flex;flex-direction:column;align-items:center;border:2px solid rgba(255,255,255,0.12);border-top:none;border-radius:0 0 14px 14px;padding:6px;gap:4px;cursor:pointer;transition:all 0.2s ease;background:rgba(255,255,255,0.03);min-width:88px}
 .tube2d:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.06)}
 .tube2d.selected2d{border-color:#00d4ff;box-shadow:0 0 16px rgba(0,212,255,0.4);transform:translateY(-8px)}

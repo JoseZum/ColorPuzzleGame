@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["ES5", "ES2015.Collection", "DOM"],
+    "outFile": "algoritmo.js",
+    "removeComments": false,
+    "strict": false,
+    "noEmitOnError": false
+  },
+  "include": ["algoritmo.ts"]
+}
