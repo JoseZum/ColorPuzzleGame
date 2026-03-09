@@ -9,6 +9,7 @@ declare function hacerMovimiento(h: any, from: number, to: number): boolean
 declare function updateLiquids(): void
 declare function render2D(): void
 declare var historial: any
+declare function puedeMover(origen: any, destino: any): boolean
 
 // Cada nodo representa un estado del tablero alcanzado durante la búsqueda
 interface NodoAEstrella {
@@ -44,12 +45,10 @@ class MinHeap<T> {
 }
 
 function estadoToString(estado: Estado): string {
-    const partes: string[] = []
-    for (const tubo of estado) {
-        const colores = tubo.toArray()
-        partes.push(colores.join(","))
-    }
-    return partes.join("|")
+    // Ordenar los tubos antes de serializar para evitar duplicados
+    const tubosSerializados = estado.map((tubo: any) => tubo.toArray().join(","))
+    tubosSerializados.sort()
+    return tubosSerializados.join("|")
 }
 
 // Si un tubo tiene k colores , aporta k - 1 a h, ya que cada tubo tiene que tener 1 color
@@ -70,15 +69,14 @@ function heuristica(estado: Estado): number {
 // Devuelve todos los estados validos a los q se pueden llegar desde el actual
 function generarSucesores(estado: Estado): Array<{estado: Estado, movimiento: [number, number]}> {
     const sucesores: Array<{estado: Estado, movimiento: [number, number]}> = []
-    // Tubo origen
     for (let desde = 0; desde < NUMERO_TUBOS; desde++){
-        // Tubo destino que pruebo
         for (let hasta = 0; hasta < NUMERO_TUBOS; hasta++){
             if (desde === hasta) continue
+            // cLonar el estado si solo si el movimiento es valido
+            if (!puedeMover(estado[desde], estado[hasta])) continue
             const nuevoEstado = clonarEstado(estado)
-
-            const movimientoValido = moverEntreTubos(nuevoEstado, desde, hasta)
-            if (movimientoValido) sucesores.push({estado: nuevoEstado, movimiento: [desde, hasta]})
+            moverEntreTubos(nuevoEstado, desde, hasta)
+            sucesores.push({estado: nuevoEstado, movimiento: [desde, hasta]})
         }
     }
     return sucesores
@@ -87,6 +85,8 @@ function generarSucesores(estado: Estado): Array<{estado: Estado, movimiento: [n
 function AEstrella(estadoInicial: Estado): Array<[number, number]> | null {
     const pendientes = new MinHeap<NodoAEstrella>((a, b) => a.f - b.f)
     const visitados = new Set<string>()
+    // mejorG: guarda el menor g con el que se ha llegado a cada estado para descartar nodos iguales o peores cuando lleguen a la cola
+    const mejorG = new Map<string, number>()
 
     const heuristicaInicial = heuristica(estadoInicial)
     const nodoInicial: NodoAEstrella = {estado: estadoInicial, g:0, h:heuristicaInicial, f:heuristicaInicial, padre: null, movimiento:null}
@@ -119,6 +119,11 @@ function AEstrella(estadoInicial: Estado): Array<[number, number]> | null {
             if (visitados.has(estadoSucesorString)) continue
 
             const g = actual.g + 1
+            // Si ya tenemos registrado un camino igual o mejor hacia este estado, se ignora 
+            const gAnterior = mejorG.get(estadoSucesorString)
+            if (gAnterior !== undefined && g >= gAnterior) continue
+            mejorG.set(estadoSucesorString, g)
+
             const hSuc = heuristica(sucesor.estado)
             const nodoSuc: NodoAEstrella = {estado: sucesor.estado, g, h: hSuc, f: g + hSuc, padre: actual, movimiento: sucesor.movimiento}
             pendientes.push(nodoSuc)

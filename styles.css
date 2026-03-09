@@ -5,7 +5,7 @@ body{overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',sans-serif;color:
 #hud{pointer-events:all;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(180deg,rgba(0,0,0,0.7) 0%,transparent 100%)}
 #hud h1{font-size:1.4rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 #controls{display:flex;gap:8px}
-#controls button,#victory-content button{pointer-events:all;padding:8px 18px;border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;text-transform:uppercase;letter-spacing:1px}
+#controls button,#victory-content button{pointer-events:all;padding:8px 18px;border:none;border-radius:8px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;font-family:inherit;line-height:1}
 #btn-undo{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
 #btn-view{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}
 #btn-view:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(56,239,125,0.4)}
