@@ -4,17 +4,26 @@ body{overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',sans-serif;color:
 #overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:10;pointer-events:none}
 #hud{pointer-events:all;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(180deg,rgba(0,0,0,0.7) 0%,transparent 100%)}
 #hud h1{font-size:1.4rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#controls{display:flex;gap:8px}
-#controls button,#victory-content button{pointer-events:all;padding:8px 18px;background:#16162a;border:1px solid rgba(255,255,255,0.07);border-radius:5px;font-size:0.82rem;font-family:'Consolas','SF Mono','Lucida Console',monospace;font-weight:700;color:#7a7e9a;cursor:pointer;transition:color 0.12s,background 0.12s,transform 0.06s,box-shadow 0.06s;box-shadow:0 3px 0 #060610,inset 0 1px 0 rgba(255,255,255,0.07);display:inline-flex;align-items:center;justify-content:center;height:34px;line-height:1;user-select:none;vertical-align:middle}
-#controls button:hover,#victory-content button:hover{background:#1e2038;color:#bfc3dd;border-color:rgba(255,255,255,0.14)}
-#controls button:active,#victory-content button:active{transform:translateY(2px);box-shadow:none;border-color:rgba(255,255,255,0.04)}
-#btn-view{box-shadow:0 3px 0 #1a4d40,inset 0 1px 0 rgba(255,255,255,0.07)}
-#btn-undo{box-shadow:0 3px 0 #2a1e60,inset 0 1px 0 rgba(255,255,255,0.07)}
-#btn-reset{box-shadow:0 3px 0 #5a1818,inset 0 1px 0 rgba(255,255,255,0.07)}
-#btn-new{box-shadow:0 3px 0 #103448,inset 0 1px 0 rgba(255,255,255,0.07)}
-#btn-astar{color:#907828;box-shadow:0 3px 0 #604010,inset 0 1px 0 rgba(255,255,255,0.07)}
-#btn-astar:hover{color:#c8a830}
-#btn-astar:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+#controls{pointer-events:all;position:fixed;top:80px;left:20px;display:flex;flex-direction:column;gap:12px;z-index:20}
+#controls button{padding:11px 22px;border:none;border-radius:10px;font-size:0.82rem;font-family:'Consolas','SF Mono','Lucida Console',monospace;font-weight:800;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;height:42px;min-width:140px;user-select:none;letter-spacing:0.5px;text-shadow:0 1px 2px rgba(0,0,0,0.4);transition:transform 0.08s,box-shadow 0.08s}
+#controls button:hover{transform:translate(-2px,-2px)}
+#controls button:active{transform:translate(4px,4px);transition:transform 0.03s}
+#btn-view{background:linear-gradient(135deg,#00c9a7,#00897b);box-shadow:4px 4px 0 #004d40,5px 5px 14px rgba(0,0,0,0.5)}
+#btn-view:hover{box-shadow:6px 6px 0 #004d40,7px 7px 18px rgba(0,0,0,0.5)}
+#btn-view:active{box-shadow:0 0 0 #004d40,1px 1px 4px rgba(0,0,0,0.4)}
+#btn-undo{background:linear-gradient(135deg,#a855f7,#7c3aed);box-shadow:4px 4px 0 #4c1d95,5px 5px 14px rgba(0,0,0,0.5)}
+#btn-undo:hover{box-shadow:6px 6px 0 #4c1d95,7px 7px 18px rgba(0,0,0,0.5)}
+#btn-undo:active{box-shadow:0 0 0 #4c1d95,1px 1px 4px rgba(0,0,0,0.4)}
+#btn-reset{background:linear-gradient(135deg,#f43f5e,#dc2626);box-shadow:4px 4px 0 #7f1d1d,5px 5px 14px rgba(0,0,0,0.5)}
+#btn-reset:hover{box-shadow:6px 6px 0 #7f1d1d,7px 7px 18px rgba(0,0,0,0.5)}
+#btn-reset:active{box-shadow:0 0 0 #7f1d1d,1px 1px 4px rgba(0,0,0,0.4)}
+#btn-new{background:linear-gradient(135deg,#38bdf8,#0284c7);box-shadow:4px 4px 0 #0c4a6e,5px 5px 14px rgba(0,0,0,0.5)}
+#btn-new:hover{box-shadow:6px 6px 0 #0c4a6e,7px 7px 18px rgba(0,0,0,0.5)}
+#btn-new:active{box-shadow:0 0 0 #0c4a6e,1px 1px 4px rgba(0,0,0,0.4)}
+#btn-astar{background:linear-gradient(135deg,#fbbf24,#d97706);box-shadow:4px 4px 0 #78350f,5px 5px 14px rgba(0,0,0,0.5)}
+#btn-astar:hover{box-shadow:6px 6px 0 #78350f,7px 7px 18px rgba(0,0,0,0.5)}
+#btn-astar:active{box-shadow:0 0 0 #78350f,1px 1px 4px rgba(0,0,0,0.4)}
+#btn-astar:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:4px 4px 0 #78350f,5px 5px 14px rgba(0,0,0,0.5)}
 #moves-counter{font-size:1rem;font-weight:600;padding:8px 16px;background:rgba(255,255,255,0.08);border-radius:8px;backdrop-filter:blur(10px)}
 #victory-screen{display:none;position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:all;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);justify-content:center;align-items:center;animation:fadeIn 0.5s ease}
 #victory-screen.active{display:flex}
