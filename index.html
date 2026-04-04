@@ -5,17 +5,70 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Tube Sort 3D</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+/* ── Modal de benchmark ─────────────────────────────────────────────────── */
+#bm-modal {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.85);
+    z-index: 9999;
+    align-items: center; justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+.bm-box {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 860px; width: 95%; max-height: 90vh;
+    overflow-y: auto; color: #e6edf3;
+}
+.bm-title { margin: 0 0 8px; color: #58a6ff; font-size: 1.4rem; font-weight: 600; }
+.bm-sub   { color: #8b949e; margin: 0 0 20px; font-size: .9rem; }
+.bm-table {
+    width: 100%; border-collapse: collapse; font-size: .88rem;
+}
+.bm-table th {
+    padding: 8px; border-bottom: 1px solid #30363d;
+    color: #8b949e; text-align: left; font-weight: 500;
+}
+.bm-table td { padding: 8px 8px; border-bottom: 1px solid #21262d; }
+.bm-table tbody tr:hover { background: #161b22; }
+.bm-note {
+    margin-top: 14px; color: #8b949e; font-size: .8rem;
+}
+.bm-actions { display: flex; gap: 12px; margin-top: 22px; }
+.bm-btn {
+    padding: 8px 22px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; font-size: .9rem;
+}
+.bm-btn-primary   { background: #58a6ff; color: #0d1117; }
+.bm-btn-secondary { background: #1f6feb; color: #fff; }
+.bm-progress-track {
+    width: 260px; height: 4px; background: #21262d;
+    border-radius: 2px; margin: 18px auto 0;
+}
+.bm-progress-fill {
+    height: 100%; background: #58a6ff; border-radius: 2px;
+    width: 0%; transition: width .3s;
+}
+</style>
 </head>
 <body>
+
+<!-- Modal de benchmark -->
+<div id="bm-modal"></div>
+
 <div id="overlay">
     <div id="hud">
         <h1 id="hud-title">Tube Sort 3D</h1>
         <div id="controls">
-            <button id="btn-view" onclick="toggleView()">2D</button>
-            <button id="btn-undo" onclick="undoMove()">Undo</button>
+            <button id="btn-view"  onclick="toggleView()">2D</button>
+            <button id="btn-undo"  onclick="undoMove()">Undo</button>
             <button id="btn-reset" onclick="resetGame()">Reset</button>
-            <button id="btn-new" onclick="newGame()">New Game</button>
-            <button id="btn-astar" onclick="solveWithAStar()">PROBAR A*</button>
+            <button id="btn-new"   onclick="newGame()">New Game</button>
+            <button id="btn-astar" onclick="solveWithAStar()">A*</button>
+            <button id="btn-bench" onclick="runBenchmarks()">Benchmark</button>
         </div>
         <div id="moves-counter">Moves: <span id="moves">0</span></div>
     </div>
@@ -35,6 +88,7 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="logicaJuego.js"></script>
 <script src="algoritmo.js"></script>
+<script src="benchmark.js"></script>
 <script src="juego3d.js"></script>
 </body>
 </html>
