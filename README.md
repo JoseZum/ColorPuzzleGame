@@ -59,8 +59,8 @@ npx serve .
 | `styles.css` | Estilos visuales. |
 | `tsconfig.json` | Configuracion de compilacion para logicaJuego.ts. |
 | `tsconfig.algoritmo.json` | Configuracion de compilacion para algoritmo.ts. |
+| `tsconfig.benchmark.json` | Configuracion de compilacion para benchmark.ts. |
 | `benchmark.ts` | Benchmarks automaticos para probar A* en distintas configuraciones. |
-| `benchmark.js` | Generado por el compilador. No editar. |
 
 ## Controles
 
