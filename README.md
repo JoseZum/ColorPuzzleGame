@@ -59,6 +59,8 @@ npx serve .
 | `styles.css` | Estilos visuales. |
 | `tsconfig.json` | Configuracion de compilacion para logicaJuego.ts. |
 | `tsconfig.algoritmo.json` | Configuracion de compilacion para algoritmo.ts. |
+| `benchmark.ts` | Benchmarks automaticos para probar A* en distintas configuraciones. |
+| `benchmark.js` | Generado por el compilador. No editar. |
 
 ## Controles
 
@@ -67,7 +69,8 @@ npx serve .
 - Undo para deshacer el ultimo movimiento
 - Reset para volver al estado inicial del tablero actual
 - New Game para generar un tablero nuevo aleatorio
-- PROBAR A* para que el algoritmo resuelva el tablero automaticamente
+- A* para que el algoritmo resuelva el tablero automaticamente
+- Benchmark para ejecutar pruebas automaticas en 4 configuraciones distintas
 
 ## Como funciona A*
 
@@ -84,4 +87,19 @@ En la consola del navegador se puede ver el detalle de cada paso:
 ```
 
 La heuristica usada es la cantidad de bloques de colores mezclados en todos los tubos. Cuantos mas colores distintos haya apilados juntos, mayor es el costo estimado.
+
+## Benchmark
+
+Se incluye un sistema de pruebas automaticas (`benchmark.ts`) que evalua el desempeño del algoritmo A* en 4 configuraciones predefinidas:
+
+- **Trivial**: 2 tubos con 1 pieza intercambiada (~3 movimientos)
+- **Facil**: 2 tubos con patron alternado (~8 movimientos)
+- **Medio**: 2 pares de tubos alternados (~16 movimientos)
+- **Clasico**: 3 pares de tubos alternados (~30+ movimientos)
+
+Al presionar el boton "Benchmark" en el juego, se ejecutan las pruebas y se muestra una tabla con:
+- Exito/Fracaso de cada configuracion
+- Tiempo de resolucion (ms)
+- Numero de nodos explorados
+- Longitud de la solucion (movimientos)
 
